@@ -5,7 +5,7 @@ export const environment = {
 		apiUrl: '<https://api.myweb.com>',
 	},
 	mqtt: {
-		server: 'mqtt.myweb.com',
+		server: '127.0.0.1',
 		protocol: "wss",
 		port: 1883
 	}
