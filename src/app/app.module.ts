@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WeatherService } from './weather.service';
+import { WeatherService } from './../app/services/weather.service';
 import { HttpClientModule } from '@angular/common/http';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 import { environment as env } from '../environments/environment.prod';

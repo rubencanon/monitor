@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WeatherService } from './weather.service';
+import { WeatherService } from './../app/services/weather.service';
 import { Chart,registerables } from 'chart.js';
 Chart.register(...registerables);
 @Component({
