@@ -7,8 +7,6 @@ import { WeatherService } from './weather.service';
 import { HttpClientModule } from '@angular/common/http';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 import { environment as env } from '../environments/environment.prod';
-import {EventMqttService} from './services/event.mqtt.service';
-import { EventStreamComponent } from './component/event-stream/event-stream.component';
 import { MqttCliComponent } from './mqtt-cli/mqtt-cli.component'
 import { FormsModule } from "@angular/forms";
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
@@ -21,7 +19,6 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    EventStreamComponent,
     MqttCliComponent
   ],
   imports: [
@@ -35,7 +32,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   ],
   providers: [
     WeatherService,
-    EventMqttService],
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

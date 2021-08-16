@@ -29,7 +29,7 @@ export class WeatherService {
       .map((result: any) => {
         const json = "{    \"list\": [        {            \"main\": {                \"temp_min\": 900.946,                \"temp_max\": 279.946            }        }           ]}";
         const obj = JSON.parse(json);
-        return obj;
+        return result;
       });
 
     //   return this._http.get('/your.json').subscribe(data => (result);

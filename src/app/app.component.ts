@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { WeatherService } from './weather.service';
-import {EventMqttService} from './services/event.mqtt.service'
 import { Chart,registerables } from 'chart.js';
 Chart.register(...registerables);
 @Component({
@@ -13,7 +12,7 @@ export class AppComponent {
   title = 'monitor'
   chart: any = [];
 
-  constructor(private _weather: WeatherService, private _mqttEvent:EventMqttService) { }
+  constructor(private _weather: WeatherService) { }
 
   ngOnInit() {
 
