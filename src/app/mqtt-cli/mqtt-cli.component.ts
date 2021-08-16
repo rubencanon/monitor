@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './mqtt-cli.component.html',
   styleUrls: ['./mqtt-cli.component.css']
 })
-export class MqttCliComponent implements OnInit, OnDestroy{
+export class MqttCliComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
   topicname: any;
@@ -23,6 +23,8 @@ export class MqttCliComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     console.log('+++++++++++++++++++++++++++++++*********************')
+
+    this.subscribeNewTopic()
   }
 
   ngOnDestroy(): void {
@@ -30,14 +32,18 @@ export class MqttCliComponent implements OnInit, OnDestroy{
   }
 
 
-  subscribeNewTopic(): void {
+  subscribeNewTopic(): String {
     console.log('inside subscribe new topic')
+    if(this.topicname==null){
+      this.topicname='casa/cocina/neverea'
+    }
     this.subscription = this._mqttService.observe(this.topicname).subscribe((message: IMqttMessage) => {
       this.msg = message;
       console.log('msg: ', message)
       this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
     });
     this.logMsg('subscribed to topic: ' + this.topicname)
+    return this.msg
   }
 
   sendmsg(): void {
@@ -47,7 +53,7 @@ export class MqttCliComponent implements OnInit, OnDestroy{
   }
 
   logMsg(message: any): void {
-    this.msglog.nativeElement.innerHTML += '<br><hr>' + message;
+    this.msglog.nativeElement.innerHTML += '<b><br><hr>' + message;
   }
 
   clear(): void {
