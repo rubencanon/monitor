@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { WeatherService } from './weather.service';
+import {EventMqttService} from './services/event.mqtt.service'
 import { Chart,registerables } from 'chart.js';
 Chart.register(...registerables);
 @Component({
@@ -12,13 +13,16 @@ export class AppComponent {
   title = 'monitor'
   chart: any = [];
 
-  constructor(private _weather: WeatherService) { }
+  constructor(private _weather: WeatherService, private _mqttEvent:EventMqttService) { }
 
   ngOnInit() {
+
+   
     this._weather.dailyForecast()
       .subscribe((res: any) => {
 
-      
+        console.log(res)
+
         let temp_max = res['list'].map((res: any) => res.main.temp_max)
 
         let temp_min = res['list'].map((res: any) => res.main.temp_min)

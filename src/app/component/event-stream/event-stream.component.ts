@@ -29,7 +29,11 @@ export class EventStreamComponent implements OnInit {
 private subscribeToTopic() {
     this.subscription = this.eventMqtt.topic(this.deviceId)
         .subscribe((data: IMqttMessage) => {
+
+          console.log('subscribeToTopic')
             let item = JSON.parse(data.payload.toString());
+            console.log('received ' + item);
+
             this.events.push(item);
         });
 }

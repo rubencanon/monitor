@@ -5,8 +5,7 @@ export const environment = {
 		apiUrl: '<https://api.myweb.com>',
 	},
 	mqtt: {
-		server: '127.0.0.1',
-		protocol: "wss",
-		port: 1883
+		server: 'broker.emqx.io/mqtt',
+		port: 8083
 	}
 };
