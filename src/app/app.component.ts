@@ -14,7 +14,7 @@ Chart.register(...registerables);
 export class AppComponent implements OnInit, OnDestroy {
 
   title = 'monitor'
-  chart: any = [];
+  monitorChart: any = [];
   mensaje: any = '';
   topicname = 'casa/cocina/neverea'
 
@@ -50,53 +50,58 @@ export class AppComponent implements OnInit, OnDestroy {
 
       console.log(res)
 
-      let temp_max = res['list'].map((res: any) => res.temperature.temp_max)
-      let temp_min = res['list'].map((res: any) => res.temperature.temp_min)
-      let alldates = res['list'].map((res: any) => res.dt)
-
+      //let temp_max = res['list'].map((res: any) => res.temperature.temp_max)
+     // let temp_min = res['list'].map((res: any) => res.temperature.temp_min)
+      let hr = res.heart.hr
+      let temp_min =  res.heart.ecg
 
       // this.pushEventToChartData(temp_max)
+      let random = Math.random()*10+1
 
 
       this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
-      this.heartData.push(temp_max)
+
+     // this.datesList.push(random)
+      this.heartData.push(hr)
 
       console.log('size....date...' + this.datesList.length)
       console.log('size....heart...' + this.heartData.length)
       console.log('....date...' + this.datesList)
       console.log('....heart...' + this.heartData)
-      let timeAxis: any[] = []
+      console.log('random....'+random)
 
-      let yAxis = this.heartData
-
-
-      if (this.chart.length !== 0) {
-        this.chart.destroy();
-      }
-      this.chart = new Chart('canvas', {
-        type: 'line',
-        data: {
-          labels: this.datesList,
-          datasets: [
-            {
-              data: yAxis,
-              borderColor: '#3cba9f',
-              fill: false
-            },
-
-          ]
-        },
-        options: {
-          scales: {
-            y: {
-              suggestedMin: 50,
-              suggestedMax: 100
-            }
+      const data = {
+        labels: this.datesList,
+        datasets: [
+          {
+            data: this.heartData,
+            borderColor: '#1F1009',
+          //  fill: true
           },
-          animation: {
-            duration: 0
+
+        ]
+      };
+
+      const options = {
+        scales: {
+          y: {
+            suggestedMin: 50,
+            suggestedMax: 100
           }
         },
+        animation: {
+          duration: 0
+        }
+      };
+
+      if (this.monitorChart.length !== 0) {
+        this.monitorChart.destroy();
+      }
+      
+      this.monitorChart = new Chart('monitor', {
+        type: 'line',
+        data: data,
+        options: options,
 
       })
 
