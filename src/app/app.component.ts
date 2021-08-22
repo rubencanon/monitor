@@ -4,6 +4,7 @@ import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { HeartData } from './../app/model/HeartData'
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 Chart.register(...registerables);
 @Component({
@@ -14,14 +15,15 @@ Chart.register(...registerables);
 export class AppComponent implements OnInit, OnDestroy {
 
   title = 'monitor'
-  chart: any = [];
+  monitorChart: any = [];
+  monitorChartSample: number=100;
   mensaje: any = '';
-  topicname = 'casa/cocina/neverea'
-
+  topicname = 'monitor/heart'
+  yLabel: number = 0
   private subscription: Subscription;
   msg: any;
-  heartData: any[] = [];
-  datesList: any[] = [];
+  heartData: number[] = [];
+  datesList: number[] = [];
   isConnected: boolean = false;
 
   constructor(private _weather: WeatherService, private _mqttService: MqttService) {
@@ -33,7 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('+++++++++++++++++++++++++++++++*********************')
     this.subscribeNewTopic()
   }
 
@@ -46,63 +47,22 @@ export class AppComponent implements OnInit, OnDestroy {
       const json = message.payload.toString()
       const obj = JSON.parse(json);
       let res: any = obj
-      /////////////////////////////////////////////
 
       console.log(res)
+      //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
 
-      let temp_max = res['list'].map((res: any) => res.temperature.temp_max)
-      let temp_min = res['list'].map((res: any) => res.temperature.temp_min)
-      let alldates = res['list'].map((res: any) => res.dt)
+      let hr: number = res.heartRate
+      let ecg: number = res.ecg
 
+      if (this.monitorChart.length == 0) {
+        this.monitorChart = this.initializeChart();
+        this.updateConfigAsNewObject(this.monitorChart)
 
-      // this.pushEventToChartData(temp_max)
+      } else {
 
-
-      this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
-      this.heartData.push(temp_max)
-
-      console.log('size....date...' + this.datesList.length)
-      console.log('size....heart...' + this.heartData.length)
-      console.log('....date...' + this.datesList)
-      console.log('....heart...' + this.heartData)
-      let timeAxis: any[] = []
-
-      let yAxis = this.heartData
-
-
-      if (this.chart.length !== 0) {
-        this.chart.destroy();
+        this.pushDataChart(this.monitorChart, ecg)
+ 
       }
-      this.chart = new Chart('canvas', {
-        type: 'line',
-        data: {
-          labels: this.datesList,
-          datasets: [
-            {
-              data: yAxis,
-              borderColor: '#3cba9f',
-              fill: false
-            },
-
-          ]
-        },
-        options: {
-          scales: {
-            y: {
-              suggestedMin: 50,
-              suggestedMax: 100
-            }
-          },
-          animation: {
-            duration: 0
-          }
-        },
-
-      })
-
-      ///////////////////////////////////////////
-
-
 
     });
 
@@ -126,21 +86,147 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  private pushEventToChartData(heartEvent: Object[]): void {
-    if (this.isChartDataFull(this.heartData, 20)) {
-      this.removeLastElementFromChartDataAndLabel();
+
+
+
+  private pushDataChart(chart: any, heartEvent: number) {
+    console.log("**************************pushDataChart****************")
+
+    console.log("addData")
+    console.log('Label----------------' + chart.data.labels)
+
+    chart.data.datasets.forEach((dataset: any) => {
+      console.log('dataset .length----------------' + dataset.data.length);
+
+      if (dataset.data.length > this.monitorChartSample) {
+        console.log('dataset .length>20');
+
+        chart.data.labels =  chart.data.labels.slice(1);
+        dataset.data =  dataset.data.slice(1)
+      }
+
+      dataset.data.push(heartEvent);
+    });
+    chart.data.labels.push(9);
+
+    chart.update();
+  }
+ 
+
+
+    
+  private initializeChart(): any {
+    console.log("*********************initializeChart***************")
+    // this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
+    /////////////////////////////////////////////
+
+    let emptyLabels: any=[]
+    let emptyData: any=[]
+
+    for(var i = 0; i < this.monitorChartSample; i++){
+      emptyLabels.push(0)
+      emptyData.push(0)
     }
-    this.heartData.push(heartEvent);
-    console.log('pushEventToChartData.....' + this.heartData)
+
+    const options = {
+      scales: {
+        y: {
+          //suggestedMin: 100,
+         // suggestedMax: 100,
+           max: 10,
+            min: -10,
+          //stepSize: 20
+
+
+        }
+      },
+      animation: {
+        duration: 0
+      }
+    };
+    const data = {
+      labels: emptyLabels,
+      datasets: [
+        {
+          data: emptyData,
+          borderColor: '#1F1009',
+          //  fill: true
+        },
+
+      ]
+    };
+
+
+    return new Chart('monitor', {
+      type: 'line',
+      data: data,
+      options: options,
+
+    })
+
+  }
+  private updateConfigAsNewObject(chart: any) {
+    console.log("******** updateConfigAsNewObject ")
+    chart.options = {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Grafica ECG-HR '
+        }
+      },
+      scales: {
+        x: {
+          display: false // hide labels
+        },
+        y: {
+          display: true
+        }
+      }
+    };
+    chart.update();
+
+  }
+  private updateConfigByMutating(chart: any) {
+    chart.options.plugins.title.text = 'Mutatin Grafica ECG-HR ';
+    chart.update();
+  }
+ 
+  private updateData(chart: any) {
+    console.log("updateData")
+    chart.data = {
+      labels: this.datesList,
+      datasets: [
+        {
+          data: this.heartData,
+          borderColor: '#1F1009',
+          //  fill: true
+        },
+
+      ]
+    };
+
+
+    chart.update();
+
   }
 
-  private removeLastElementFromChartDataAndLabel(): void {
-    this.heartData = this.heartData.slice(1);
+  private addData(chart: any, label: any, data: any) {
+
+    console.log("*************addData")
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset: any) => {
+      dataset.data.push(data);
+    });
+    chart.update();
   }
 
-  private isChartDataFull(chartData: Object[], limit: number): boolean {
-    return chartData.length >= limit;
+  private removeData(chart: any) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset: any) => {
+      dataset.data.pop();
+    });
+    chart.update();
   }
-
 
 }
