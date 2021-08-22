@@ -52,57 +52,13 @@ yLabel:number = 0
       const json = message.payload.toString()
       const obj = JSON.parse(json);
       let res: any = obj
-      /////////////////////////////////////////////
-      const options = {
-        scales: {
-          y: {
-            suggestedMin: 100,
-            suggestedMax: 100
-          }
-        },
-        animation: {
-          duration: 0
-        }
-      };
-      const data = {
-        labels: this.datesList,
-        datasets: [
-          {
-            data: this.heartData,
-            borderColor: '#1F1009',
-          //  fill: true
-          },
-
-        ]
-      };
-
-
+   
       console.log(res)
+      //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
 
       let hr:number = res.heartRate
       let ecg:number =  res.ecg
-
-      // this.pushEventToChartData(temp_max)
-    //  let random = Math.random()*10+1
-
-
-      //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
-
-      this.datesList.push(this.yLabel++)
-      this.pushEventToChartData(ecg)
-
-      console.log('....heart...' + this.heartData)
-      if (this.monitorChart.length !== 0) {
-        this.monitorChart.destroy();
-      }
-      
-      this.monitorChart = new Chart('monitor', {
-        type: 'line',
-        data: data,
-        options: options,
-
-      })
-      ///////////////////////////////////////////
+      this.buildChart(hr, ecg)
     });
 
    this.updateConfigAsNewObject(this.monitorChart)
@@ -219,6 +175,59 @@ private initializeChart(chart:any){
     options: options,
 
   })
+}
+
+private buildChart(hr:number, ecg:number){
+
+  // this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
+  /////////////////////////////////////////////
+  const options = {
+    scales: {
+      y: {
+        suggestedMin: 100,
+        suggestedMax: 100
+      }
+    },
+    animation: {
+      duration: 0
+    }
+  };
+  const data = {
+    labels: this.datesList,
+    datasets: [
+      {
+        data: this.heartData,
+        borderColor: '#1F1009',
+      //  fill: true
+      },
+
+    ]
+  };
+
+
+
+
+  // this.pushEventToChartData(temp_max)
+//  let random = Math.random()*10+1
+
+
+  //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
+
+  this.datesList.push(this.yLabel++)
+  this.pushEventToChartData(ecg)
+
+  console.log('....heart...' + this.heartData)
+  if (this.monitorChart.length !== 0) {
+    this.monitorChart.destroy();
+  }
+  
+  this.monitorChart = new Chart('monitor', {
+    type: 'line',
+    data: data,
+    options: options,
+
+  })
+
 }
 
 }
