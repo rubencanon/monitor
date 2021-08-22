@@ -16,16 +16,22 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'monitor'
   monitorChart: any = [];
   mensaje: any = '';
-  topicname = 'casa/cocina/neverea'
-
+  topicname = 'monitor/heart'
+yLabel:number = 0
   private subscription: Subscription;
   msg: any;
-  heartData: any[] = [];
-  datesList: any[] = [];
+  heartData: number[] = [];
+  datesList: number[] = [];
   isConnected: boolean = false;
 
+
+
+  
   constructor(private _weather: WeatherService, private _mqttService: MqttService) {
     this.subscription = new Subscription();
+    this.initializeChart(this.monitorChart);
+
+    
   }
 
   ngOnDestroy(): void {
@@ -47,29 +53,17 @@ export class AppComponent implements OnInit, OnDestroy {
       const obj = JSON.parse(json);
       let res: any = obj
       /////////////////////////////////////////////
-
-      console.log(res)
-
-      //let temp_max = res['list'].map((res: any) => res.temperature.temp_max)
-     // let temp_min = res['list'].map((res: any) => res.temperature.temp_min)
-      let hr = res.heart.hr
-      let temp_min =  res.heart.ecg
-
-      // this.pushEventToChartData(temp_max)
-      let random = Math.random()*10+1
-
-
-      this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
-
-     // this.datesList.push(random)
-      this.heartData.push(hr)
-
-      console.log('size....date...' + this.datesList.length)
-      console.log('size....heart...' + this.heartData.length)
-      console.log('....date...' + this.datesList)
-      console.log('....heart...' + this.heartData)
-      console.log('random....'+random)
-
+      const options = {
+        scales: {
+          y: {
+            suggestedMin: 100,
+            suggestedMax: 100
+          }
+        },
+        animation: {
+          duration: 0
+        }
+      };
       const data = {
         labels: this.datesList,
         datasets: [
@@ -82,18 +76,22 @@ export class AppComponent implements OnInit, OnDestroy {
         ]
       };
 
-      const options = {
-        scales: {
-          y: {
-            suggestedMin: 50,
-            suggestedMax: 100
-          }
-        },
-        animation: {
-          duration: 0
-        }
-      };
 
+      console.log(res)
+
+      let hr:number = res.heartRate
+      let ecg:number =  res.ecg
+
+      // this.pushEventToChartData(temp_max)
+    //  let random = Math.random()*10+1
+
+
+      //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
+
+      this.datesList.push(this.yLabel++)
+      this.pushEventToChartData(ecg)
+
+      console.log('....heart...' + this.heartData)
       if (this.monitorChart.length !== 0) {
         this.monitorChart.destroy();
       }
@@ -104,13 +102,11 @@ export class AppComponent implements OnInit, OnDestroy {
         options: options,
 
       })
-
       ///////////////////////////////////////////
-
-
-
     });
 
+   this.updateConfigAsNewObject(this.monitorChart)
+   this.updateData(this.monitorChart)
     this.logMsg('subscribed to topic: ' + this.topicname)
     return this.msg
   }
@@ -131,21 +127,98 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  private pushEventToChartData(heartEvent: Object[]): void {
+  private pushEventToChartData(heartEvent: number): void {
     if (this.isChartDataFull(this.heartData, 20)) {
       this.removeLastElementFromChartDataAndLabel();
     }
     this.heartData.push(heartEvent);
+    this.datesList.push(this.yLabel++)
     console.log('pushEventToChartData.....' + this.heartData)
   }
 
   private removeLastElementFromChartDataAndLabel(): void {
     this.heartData = this.heartData.slice(1);
+    this.datesList = this.datesList.slice(1);
+   
   }
 
-  private isChartDataFull(chartData: Object[], limit: number): boolean {
+  private isChartDataFull(chartData: number[], limit: number): boolean {
     return chartData.length >= limit;
   }
 
+  private updateConfigAsNewObject(chart:any) {
+ 
+    chart.options = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Grafica ECG-HR '
+            }
+        },
+        scales: {
+            x: {
+                display: true
+            },
+            y: {
+                display: true
+            }
+        }
+    };
+    chart.update();
+}
+private updateData(chart:any){
+
+  const data = {
+    labels: this.datesList,
+    datasets: [
+      {
+        data: this.heartData,
+        borderColor: '#1F1009',
+      //  fill: true
+      },
+
+    ]
+  };
+
+  chart.data=data;
+  chart.update();
+  
+}
+
+
+
+private initializeChart(chart:any){
+  const data = {
+    labels: this.datesList,
+    datasets: [
+      {
+        data: this.heartData,
+        borderColor: '#1F1009',
+      //  fill: true
+      },
+
+    ]
+  };
+
+  const options = {
+    scales: {
+      y: {
+        suggestedMin: 100,
+        suggestedMax: 100
+      }
+    },
+    animation: {
+      duration: 0
+    }
+  };
+
+  chart = new Chart('monitor', {
+    type: 'line',
+    data: data,
+    options: options,
+
+  })
+}
 
 }
