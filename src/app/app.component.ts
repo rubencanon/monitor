@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'monitor'
   monitorChart: any = [];
-  monitorChartSample: number = 200;
+  monitorChartSample: number = 250;
   mensaje: any = '';
   topicname = 'monitor/heart'
   yLabel: number = 0
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
       if (this.monitorChart.length == 0) {
         this.monitorChart = this.initializeChart();
-        this.updateConfigAsNewObject(this.monitorChart)
+      //  this.updateConfigAsNewObject(this.monitorChart)
 
       } else {
 
@@ -103,6 +103,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     chart.data.datasets.forEach((dataset: any) => {
       console.log('dataset .length----------------' + dataset.data.length);
+
+      console.log("heartEvent.length"+heartEvent.length)
       heartEvent.forEach((eventData: number) => {
 
         if (dataset.data.length > this.monitorChartSample) {
@@ -112,13 +114,14 @@ export class AppComponent implements OnInit, OnDestroy {
           chart.data.datasets[0].data.shift()
 
         }
-        dataset.data.push(eventData/500);
+        dataset.data.push(eventData/200);
         chart.data.labels.push(1);
+
       })
+      chart.update();
 
     }
     );
-    chart.update();
 
     /*
     if (chart.data.datasets[0].data.length > this.monitorChartSample) {
@@ -150,6 +153,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 */
     const options = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Grafica ECG-HR '
+        }
+      },
       scales: {
         
         y: {
@@ -163,7 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       },
       animation: {
-        duration: 80
+        duration: 60
       }
     };
     const data = {
