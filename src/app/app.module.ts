@@ -9,6 +9,9 @@ import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 import { environment as env } from '../environments/environment.prod';
 import { MqttCliComponent } from './mqtt-cli/mqtt-cli.component'
 import { FormsModule } from "@angular/forms";
+import { LogInComponent } from './log-in/log-in.component';
+import { ResumeComponent } from './resume/resume.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'broker.emqx.io',
   port: 8083,
@@ -19,7 +22,9 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    MqttCliComponent
+    MqttCliComponent,
+    LogInComponent,
+    ResumeComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +32,7 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     HttpClientModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     FormsModule,
+    BrowserAnimationsModule,
 
     
   ],
