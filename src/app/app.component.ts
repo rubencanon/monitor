@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   title = 'monitor'
   monitorChart: any = [];
-  monitorChartSample: number=100;
+  monitorChartSample: number = 250;
   mensaje: any = '';
   topicname = 'monitor/heart'
   yLabel: number = 0
@@ -36,38 +36,44 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeNewTopic()
+    var arr = ["orange", "mango", "banana", "sugar", "tea", "avocad6", "avocad7", "avocad8", "avocad9", "avocad10", "avocad11", "avocad12"];
+    console.log("arr.slice( 1, 2) : " + arr.slice(1, 9));
+    console.log("arr.slice( 1, 3) : " + arr.slice(1, 3));
+    console.log("arr.slice( 8, 10) : " + arr.slice(8, 10));
+    console.log("arr.slice( 8) : " + arr.slice(8));
+    console.log("arr.slice( 1) : " + arr.slice(1));
+
+
+
   }
 
   subscribeNewTopic() {
     console.log('inside subscribe new topic')
     this.subscription = this._mqttService.observe(this.topicname).subscribe((message: IMqttMessage) => {
-      this.msg = message;
-      console.log('msg: ', message)
       // this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
       const json = message.payload.toString()
       const obj = JSON.parse(json);
       let res: any = obj
 
-      console.log(res)
+      console.log("received data: " + res)
       //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
 
       let hr: number = res.heartRate
-      let ecg: number = res.ecg
+      let ecg: number[] = res.ecg
 
       if (this.monitorChart.length == 0) {
         this.monitorChart = this.initializeChart();
-        this.updateConfigAsNewObject(this.monitorChart)
+      //  this.updateConfigAsNewObject(this.monitorChart)
 
       } else {
 
         this.pushDataChart(this.monitorChart, ecg)
- 
+
       }
 
     });
 
     this.logMsg('subscribed to topic: ' + this.topicname)
-    return this.msg
   }
 
   sendmsg(): void {
@@ -89,59 +95,84 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
 
-  private pushDataChart(chart: any, heartEvent: number) {
+  private pushDataChart(chart: any, heartEvent: number[]) {
     console.log("**************************pushDataChart****************")
 
     console.log("addData")
-    console.log('Label----------------' + chart.data.labels)
+    console.log('Label----------------' + chart.data.labels.length)
 
     chart.data.datasets.forEach((dataset: any) => {
       console.log('dataset .length----------------' + dataset.data.length);
 
-      if (dataset.data.length > this.monitorChartSample) {
-        console.log('dataset .length>20');
+      console.log("heartEvent.length"+heartEvent.length)
+      heartEvent.forEach((eventData: number) => {
 
-        chart.data.labels =  chart.data.labels.slice(1);
-        dataset.data =  dataset.data.slice(1)
+        if (dataset.data.length > this.monitorChartSample) {
+          console.log('dataset .length>' + this.monitorChartSample);
+
+          chart.data.labels.shift();
+          chart.data.datasets[0].data.shift()
+
+        }
+        dataset.data.push(eventData/200);
+        chart.data.labels.push(1);
+
+      })
+      chart.update();
+
+    }
+    );
+
+    /*
+    if (chart.data.datasets[0].data.length > this.monitorChartSample) {
+
+      for (var i = 0; i < 50; i++) {
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift()
+
       }
-
-      dataset.data.push(heartEvent);
-    });
-    chart.data.labels.push(9);
-
-    chart.update();
+    }
+    */
+  
   }
- 
 
 
-    
+
+
   private initializeChart(): any {
     console.log("*********************initializeChart***************")
     // this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
     /////////////////////////////////////////////
 
-    let emptyLabels: any=[]
-    let emptyData: any=[]
-
-    for(var i = 0; i < this.monitorChartSample; i++){
+    let emptyLabels: any = []
+    let emptyData: any = []
+/*
+    for (var i = 0; i < this.monitorChartSample; i++) {
       emptyLabels.push(0)
       emptyData.push(0)
     }
-
+*/
     const options = {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Grafica ECG-HR '
+        }
+      },
       scales: {
+        
         y: {
           //suggestedMin: 100,
-         // suggestedMax: 100,
-           max: 10,
-            min: -10,
+          // suggestedMax: 100,
+          max: 10,
+          min: -10,
           //stepSize: 20
 
 
         }
       },
       animation: {
-        duration: 0
+        duration: 60
       }
     };
     const data = {
@@ -177,10 +208,24 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       scales: {
         x: {
-          display: false // hide labels
+          display: true, // hide labels
+          scaleOverride : true,
+          scaleSteps : 10,
+          scaleStepWidth : 50,
+          scaleStartValue : 0 ,
+          ticks: {
+            stepSize: 0.5
+          }
         },
         y: {
-          display: true
+          display: true,
+          scaleOverride : true,
+          scaleSteps : 10,
+          scaleStepWidth : 50,
+          scaleStartValue : 0 ,
+          ticks: {
+            stepSize: 1
+        }
         }
       }
     };
@@ -191,7 +236,7 @@ export class AppComponent implements OnInit, OnDestroy {
     chart.options.plugins.title.text = 'Mutatin Grafica ECG-HR ';
     chart.update();
   }
- 
+
   private updateData(chart: any) {
     console.log("updateData")
     chart.data = {
