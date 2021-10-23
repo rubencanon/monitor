@@ -36,14 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeNewTopic()
-    var arr = ["orange", "mango", "banana", "sugar", "tea", "avocad6", "avocad7", "avocad8", "avocad9", "avocad10", "avocad11", "avocad12"];
-    console.log("arr.slice( 1, 2) : " + arr.slice(1, 9));
-    console.log("arr.slice( 1, 3) : " + arr.slice(1, 3));
-    console.log("arr.slice( 8, 10) : " + arr.slice(8, 10));
-    console.log("arr.slice( 8) : " + arr.slice(8));
-    console.log("arr.slice( 1) : " + arr.slice(1));
-
-
+            this.monitorChart = this.initializeChart();
 
   }
 
@@ -164,11 +157,15 @@ export class AppComponent implements OnInit, OnDestroy {
         y: {
           //suggestedMin: 100,
           // suggestedMax: 100,
-          max: 10,
-          min: -10,
+          max: 6,
+          min: -6,
           //stepSize: 20
 
 
+        },
+        x:{
+         // max: 1000,
+          min: 0,
         }
       },
       animation: {
@@ -211,7 +208,7 @@ export class AppComponent implements OnInit, OnDestroy {
           display: true, // hide labels
           scaleOverride : true,
           scaleSteps : 10,
-          scaleStepWidth : 50,
+          scaleStepWidth : 30,
           scaleStartValue : 0 ,
           ticks: {
             stepSize: 0.5
@@ -221,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
           display: true,
           scaleOverride : true,
           scaleSteps : 10,
-          scaleStepWidth : 50,
+          scaleStepWidth : 30,
           scaleStartValue : 0 ,
           ticks: {
             stepSize: 1
@@ -233,7 +230,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   }
   private updateConfigByMutating(chart: any) {
-    chart.options.plugins.title.text = 'Mutatin Grafica ECG-HR ';
+    chart.options.plugins.title.text = 'Mutating Grafica ECG-HR ';
     chart.update();
   }
 
