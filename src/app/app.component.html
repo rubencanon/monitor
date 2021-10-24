@@ -1,23 +1,12 @@
+<h1>Angular Router App</h1>
+<!-- This nav gives you links to click, which tells the router which route to use (defined in the routes constant in  AppRoutingModule) -->
+<nav>
+  <ul>
+    <li><a routerLink="/signin" routerLinkActive="active">signin</a></li>
+    <li><a routerLink="/register" routerLinkActive="active">register</a></li>
+    <li><a routerLink="/monitor" routerLinkActive="active">monitor</a></li>
 
-<!-- 
-<mat-toolbar color="white" class="app-header">
-    <a href="#" target="_blank" class="positronx">Monitor Cardiaco</a>
-     <span class="nav-tool-items">
-       <br>
-       <br>
-    </span> 
-  </mat-toolbar>
-
-  
-<app-patient-list></app-patient-list>
- <router-outlet></router-outlet>
- -->
-
- <app-resume></app-resume>
- <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
-  <mat-icon>home</mat-icon>
-</button>
- <div *ngIf="monitorChart">
-     <canvas id="monitor"></canvas>
-
-</div>
+  </ul>
+</nav>
+<!-- The routed views render in the <router-outlet>-->
+<router-outlet></router-outlet>
