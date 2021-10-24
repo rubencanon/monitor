@@ -2,3 +2,5 @@ https://bugfender.com/blog/using-mqtt-on-angular-apps/
 
 
 npm install ngx-mqtt --save  ###mqtt client
+npm i -s @angular/flex-layout @angular/cdk
+npm audit fix
