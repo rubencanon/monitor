@@ -22,7 +22,7 @@ export class SigninComponent implements OnInit {
 
 btnClick(event: any ) {
   console.log('+++++++++++++++++++'+ this.user +'+++++ +++++++++++++++')
- // this.router.navigateByUrl('/monitor');
+  this.router.navigateByUrl('/monitor');
 
 };
 
