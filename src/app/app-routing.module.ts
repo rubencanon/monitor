@@ -6,7 +6,7 @@ import { MonitorChartComponent } from './components/monitor-chart/monitor-chart.
 
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/' },
+  { path: '', pathMatch: 'full', redirectTo: '/signin' },
   { path: 'signin', component: SigninComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'monitor', component: MonitorChartComponent },
