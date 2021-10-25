@@ -2,15 +2,12 @@ import { Chart, registerables, ChartOptions, } from 'chart.js';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-
-
-Chart.register(...registerables);
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-monitor-chart',
+  templateUrl: './monitor-chart.component.html',
+  styleUrls: ['./monitor-chart.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class MonitorChartComponent  implements OnInit, OnDestroy {
 
   title = 'monitor'
   monitorChart: any = [];
@@ -34,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscribeNewTopic()
-    this.monitorChart = this.initializeChart();
+         this.monitorChart = this.initializeChart();
 
   }
 

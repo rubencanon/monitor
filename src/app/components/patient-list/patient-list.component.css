@@ -1,0 +1,42 @@
+.patient-table {
+    width: 90%;
+    margin: auto;
+
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    cursor: pointer;
+    justify-content: center;
+    color: #0a055c;
+    background-color: #96aacf;
+    font-size: 18px;
+
+
+  }
+  
+  .mat-row:hover .mat-cell {
+    border-color: aqua;
+    color: white;
+
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+    border: 1px solid #e7e7e7;
+
+  }
+
+  .mat-header-cell{
+    font-size: 20px;
+    font-style: oblique;
+    color: white;
+    background-color: #0c46a3;
+
+  }
+
+  .container {
+    margin: 100px;
+
+  }
