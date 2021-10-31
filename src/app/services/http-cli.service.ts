@@ -13,7 +13,7 @@ export class HttpCliService {
 
   private REST_API_GET_INCIDENT = "http://localhost:8080/hrmonitor/incidents/0";
   private REST_API_AUTHENTICATE = "http://localhost:8080/authentication/login";
-
+  private REST_API_BASE_PATH = 'http://localhost:8080/hrmonitor/patient/'
 
   public sendGetRequest(): Observable<HttpResponse<HrIncident>> {
     return this.httpClient.get<HrIncident>(this.REST_API_GET_INCIDENT, { observe: 'response' });
@@ -34,6 +34,34 @@ export class HttpCliService {
 
   }
 
+
+  public getIncidentList(id: String): Observable<HttpResponse<any>> {
+
+    var url = this.REST_API_BASE_PATH+id+"/incidents"
+
+    console.log(url)
+
+    return this.httpClient.get<any>(
+      url,
+      { 'headers': HTTP_OPTIONS.headers, observe: 'response' }
+    );
+
+  }
+
+  public getPatienList(id: String): Observable<HttpResponse<any>> {
+
+    var url = "http://localhost:8080/medicalStaff/"+id
+
+    console.log(url)
+
+    return this.httpClient.get<any>(
+      url,
+      { 'headers': HTTP_OPTIONS.headers, observe: 'response' }
+    );
+
+  }
+
+  
 }
 
 

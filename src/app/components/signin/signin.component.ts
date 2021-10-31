@@ -33,7 +33,7 @@ export class SigninComponent implements OnInit {
     .subscribe(resp => {
       console.log('estado------' + resp.status, '-', resp.statusText, resp.body)
       if (resp.body == 'ACCEPTED') {
-        this.router.navigateByUrl('/monitor');
+        this.router.navigateByUrl('/patient-list');
       }
 
     });
