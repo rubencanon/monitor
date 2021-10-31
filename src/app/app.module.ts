@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 import { MqttCliComponent } from './mqtt-cli/mqtt-cli.component'
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ResumeComponent } from './resume/resume.component';
+import { ResumeComponent } from './components/resume/resume.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
