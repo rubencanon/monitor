@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
-import { MqttCliComponent } from './mqtt-cli/mqtt-cli.component'
+import { MqttCliComponent } from './components/mqtt-cli/mqtt-cli.component'
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ResumeComponent } from './components/resume/resume.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
