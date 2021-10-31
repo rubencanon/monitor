@@ -15,6 +15,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
 import { MonitorChartComponent } from './components/monitor-chart/monitor-chart.component';
+import { DialogueComponent } from './components/dialogue/dialogue.component';
 
 export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: 'broker.emqx.io',
@@ -31,7 +32,11 @@ export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     RegisterComponent,
     SigninComponent,
     PatientListComponent,
-    MonitorChartComponent
+    MonitorChartComponent,
+    DialogueComponent
+  ],
+  entryComponents: [
+    DialogueComponent
   ],
   imports: [
     BrowserModule,

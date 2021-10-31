@@ -8,14 +8,22 @@
       <form class="example-form">
         <mat-card-content>
           <mat-form-field class="example-full-width">
-            <input  [(ngModel)]="user" matInput placeholder="Username">
+            <input  [(ngModel)]="user"  matInput [formControl]="userFormControl" [errorStateMatcher]="matcher" placeholder="Usuario">
+            <mat-error *ngIf="userFormControl.hasError('required')">
+             Debe ingresar su usuario <strong> *</strong>
+            </mat-error>
           </mat-form-field>
   
           <mat-form-field class="example-full-width">
-            <input  [(ngModel)]="password" matInput placeholder="Password">
+            <input  type="password" [(ngModel)]="password" matInput [formControl]="passFormControl" [errorStateMatcher]="matcher"  placeholder="Contraseña">
+            <mat-error *ngIf="passFormControl.hasError('required')">
+              Debe ingresar su contraseña <strong> *</strong>
+             </mat-error>
           </mat-form-field>
+          <mat-hint >{{error}}</mat-hint>
         </mat-card-content>
         <button mat-stroked-button color="accent" class="btn-block" (click)="btnClick('');">Ingresar</button>
       </form>
     </mat-card>
   </div>
+

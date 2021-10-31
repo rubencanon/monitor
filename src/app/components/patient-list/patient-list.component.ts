@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpCliService } from '../../services/http-cli.service'
+import {DataService} from '../../services/data.service'
+
 export interface PacientElement {
   name: string;
   lastName: string;
@@ -30,29 +32,32 @@ export class PatientListComponent implements OnInit {
    dataSource = ELEMENT_DATA;
    clickedRows = new Set<PacientElement>();
 
-   constructor(private router: Router, private httpService: HttpCliService ) { }
+   constructor(
+     private router: Router, 
+     private httpService: HttpCliService,
+     private dataService: DataService ) { }
   ngOnInit(): void {
-    this.httpService.getPatienList("A00021")
+
+    console.log('Dataservice: '+this.dataService.userId)
+    this.httpService.getPatienList(this.dataService.userId)
     .subscribe(resp => {
       console.log('estado------' + resp.status, '-', resp.statusText, resp.body, resp.body.patients)
       this.dataSource=resp.body.patients;
-    
-    /*
-      resp.body.patients.forEach((patient:Patient) => {
-        console.log(patient.name)
-        patients.push(patient as Patient)
-      } )
-      */
-     //var patients: Patient =resp.body.patients[0] as Patient;
-    // console.log('patients------' + patients[0].id)
 
-     
-
-      if (resp.body == 'ACCEPTED') {
-        this.router.navigateByUrl('/patient-list');
+      if (resp.body != 'OK') {
+        console.log('Error al consultar la lista de pacientes')
       }
 
     });
+
+  }
+
+  onSelect(patientId:string):void{
+    console.log(' vamos bien'+patientId)
+    this.dataService.patientId = patientId
+
+    this.router.navigateByUrl('/monitor');
+
 
   }
 
