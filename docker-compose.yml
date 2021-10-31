@@ -1,6 +1,7 @@
 version: "3.7"
 services:
     angular-service:
+       image: rubendreamteam/monitor-chart:latest
        container_name: ng-docker-monitor
        build: .
        ports:
