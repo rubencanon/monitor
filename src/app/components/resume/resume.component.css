@@ -28,3 +28,9 @@ input[type=text], select {
     background-color: #f2f2f2;
     padding: 5px;
   }
+
+  
+  .center {
+    display: flex;
+    justify-content: center;
+  }

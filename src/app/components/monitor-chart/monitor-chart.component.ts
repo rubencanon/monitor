@@ -1,7 +1,9 @@
-import { Chart, registerables, ChartOptions, } from 'chart.js';
+import { Chart,  ChartOptions, } from 'chart.js';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import {DataService} from '../../services/data.service'
+
 @Component({
   selector: 'app-monitor-chart',
   templateUrl: './monitor-chart.component.html',
@@ -13,7 +15,7 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   monitorChart: any = [];
   monitorChartSample: number = 250;
   mensaje: any = '';
-  topicname = 'monitor/heart'
+  topicname = 'monitor/heart/'
   yLabel: number = 0
   private subscription: Subscription;
   msg: any;
@@ -21,7 +23,11 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   datesList: number[] = [];
   isConnected: boolean = false;
 
-  constructor(private _mqttService: MqttService) {
+  constructor(
+    private _mqttService: MqttService,
+    private dataService:DataService
+    )
+  {
     this.subscription = new Subscription();
   }
 
@@ -36,15 +42,14 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   }
 
   subscribeNewTopic() {
-    console.log('inside subscribe new topic')
+    this.topicname= this.topicname+this.dataService.patientId;
+    console.log('inside subscribe new topic:'+this.topicname)
     this.subscription = this._mqttService.observe(this.topicname).subscribe((message: IMqttMessage) => {
-      // this.logMsg('Message: ' + message.payload.toString() + '<br> for topic: ' + message.topic);
       const json = message.payload.toString()
       const obj = JSON.parse(json);
       let res: any = obj
 
       console.log("received data: " + res)
-      //this.datesList.push(new Date().toLocaleTimeString('en', { year: 'numeric', month: 'short', day: 'numeric' }))
 
       let hr: number = res.heartRate
       let ecg: number[] = res.ecg
@@ -86,12 +91,10 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   private pushDataChart(chart: any, heartEvent: number[]) {
     console.log("**************************pushDataChart****************")
 
-    console.log("addData")
     console.log('Label----------------' + chart.data.labels.length)
 
     chart.data.datasets.forEach((dataset: any) => {
       console.log('dataset .length----------------' + dataset.data.length);
-
       console.log("heartEvent.length"+heartEvent.length)
       heartEvent.forEach((eventData: number) => {
 

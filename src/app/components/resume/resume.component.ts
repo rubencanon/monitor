@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-resume',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResumeComponent implements OnInit {
 
-  constructor() { }
+  constructor(    private router: Router,
+    ) { }
 
   ngOnInit(): void {
+  }
+  btnClick(){
+    this.router.navigateByUrl('/patient-list');
+
+
   }
 
 }
