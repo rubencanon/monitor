@@ -60,6 +60,9 @@ export class PatientListComponent implements OnInit {
 
 
   }
+  btnLogOut(){
+    this.router.navigateByUrl('/signin');
+  }
 
 }
 

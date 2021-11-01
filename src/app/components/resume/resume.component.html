@@ -1,24 +1,26 @@
-<div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
-    <div fxFlex="90%">
-        <label for="fname"><b>Paciente: </b></label>
-        <label for="fname"><b>John Connor</b></label> <br> <br>  
-        <textarea name="textarea" rows="3" cols="42" disabled>Alertas:</textarea>
-
-     </div>
-    <div fxFlex="10%">
-        <button mat-fab color="primary" class="btn-block" (click)="btnClick();">
-            <mat-icon>home</mat-icon>
-        </button>    </div>
-</div>
-
-<div>
-    <canvas id="monitor" style="border:1px solid; height: 700px; width: 100%;"></canvas>
-
-</div>
-
-<div >
-    <button mat-raised-button color="primary" class="btn-block" (click)="btnClick();">Regresar</button>
-</div>
+<mat-card-content>
 
 
+    <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
+        <div fxFlex="90%">
+            <label for="fname"><b>Paciente: </b></label>
+            <label for="fname"><b>John Connor</b></label> <br> <br>
+            <textarea name="textarea" rows="3" cols="42" disabled>Alertas:</textarea>
 
+        </div>
+        <div fxFlex="10%">
+            <button mat-fab color="primary" class="btn-block" (click)="btnLogOut();">
+                <mat-icon>home</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <canvas id="monitor" style="border:1px solid; height: 700px; width: 100%;"></canvas>
+
+    </div>
+
+    <div>
+        <button mat-raised-button color="primary" class="btn-block" (click)="btnClick();">Regresar</button>
+    </div>
+</mat-card-content>

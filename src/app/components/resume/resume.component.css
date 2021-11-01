@@ -34,3 +34,25 @@ input[type=text], select {
     display: flex;
     justify-content: center;
   }
+
+  .mat-card {
+    padding: 45px 70px 55px;
+    background-color:#6282a7;
+  }
+  .btn-block{
+
+    background-color:#6282a7;
+
+  }
+
+    
+  .mat-toolbar {
+
+    color: white; 
+    background: #6282a7;
+    }
+
+    .mat-fab{
+      background-color:#2e6ee4;
+    
+    }

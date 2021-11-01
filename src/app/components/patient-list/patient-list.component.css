@@ -40,3 +40,26 @@
     margin: 100px;
 
   }
+
+
+  .mat-card {
+    padding: 45px 70px 55px;
+    background-color:#6282a7;
+  }
+  .btn-block{
+    background-color:#6282a7;
+  }
+.mat-fab{
+  background-color:white;
+
+}
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+    
+  .mat-toolbar {
+
+    color: white; 
+    background: #6282a7;
+    }

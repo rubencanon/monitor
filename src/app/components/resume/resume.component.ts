@@ -18,5 +18,8 @@ export class ResumeComponent implements OnInit {
 
 
   }
+  btnLogOut(){
+    this.router.navigateByUrl('/signin');
+  }
 
 }
