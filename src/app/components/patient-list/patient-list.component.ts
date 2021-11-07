@@ -52,10 +52,10 @@ export class PatientListComponent implements OnInit {
 
   }
 
-  onSelect(patientId:string):void{
+  onSelect(patientId:string, patientName: string):void{
     console.log(' vamos bien'+patientId)
     this.dataService.patientId = patientId
-
+    this.dataService.patientName = patientName
     this.router.navigateByUrl('/monitor');
 
 

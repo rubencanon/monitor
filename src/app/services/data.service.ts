@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class DataService {
 public userId:string='';
 public patientId:string='';
+public patientName:string='';
 
   constructor() { }
 }

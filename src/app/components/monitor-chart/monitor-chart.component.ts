@@ -147,8 +147,16 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
       plugins: {
         title: {
           display: true,
-          text: 'Grafica ECG-HR '
-        }
+          text: 'Grafica ECG '
+        },
+        legend: {
+          display: false,
+          labels: {
+              color: 'rgb(255, 99, 132)',
+              text: 'ECG'
+
+          }
+      }
       },
       scales: {
         
@@ -158,11 +166,16 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
           max: 6,
           min: -6,
           //stepSize: 20
-
+          labelString: '[mV]',
+          legend: {
+            enabled: true
+        },
 
         },
         x:{
          // max: 1000,
+         display: false, // hide labels
+         labelString: 'tiempo [ms]',
           min: 0,
         }
       },
@@ -203,11 +216,13 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
       },
       scales: {
         x: {
-          display: true, // hide labels
+          display: false, // hide labels
           scaleOverride : true,
           scaleSteps : 10,
           scaleStepWidth : 30,
           scaleStartValue : 0 ,
+          labelString: 'probability',
+
           ticks: {
             stepSize: 0.5
           }
@@ -218,6 +233,8 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
           scaleSteps : 10,
           scaleStepWidth : 30,
           scaleStartValue : 0 ,
+          labelString: 'probability',
+
           ticks: {
             stepSize: 1
         }
