@@ -2,17 +2,24 @@
 
 
     <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="left">
-        <div fxFlex="90%">
+        <div fxFlex="46%">
             <label for="fname"><b>Paciente: </b></label>
             <label for="fname"><b>{{patient}}</b></label> <br> <br>
-            <textarea name="textarea" rows="3" cols="42" disabled>Alertas:</textarea>
+            <!-- <textarea name="textarea" rows="3" cols="42" disabled>Alertas: {{type}}</textarea> -->
+        </div>
+        <div fxFlex="45%">
+            <br>
+            <br>
+            <button mat-raised-button color="primary" class="btn-block" (click)="incidentsBtn();">Ver Incidentes</button>
 
         </div>
-        <div fxFlex="10%">
+        <div fxFlex="1%">
+            <br>
             <button mat-fab color="primary" class="btn-block" (click)="btnLogOut();">
                 <mat-icon>home</mat-icon>
             </button>
         </div>
+
     </div>
 
     <div>
@@ -20,7 +27,8 @@
 
     </div>
 
-    <div>
+    <div class='container' align=center>
         <button mat-raised-button color="primary" class="btn-block" (click)="btnClick();">Regresar</button>
     </div>
+
 </mat-card-content>

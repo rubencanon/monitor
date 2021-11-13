@@ -1,0 +1,47 @@
+<mat-toolbar>
+
+    <mat-toolbar-row>
+      <span>Lista de Incidentes</span>
+      <span class="example-spacer"></span>
+      <button mat-fab  (click)="btnLogOut();">
+        <mat-icon>home</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+<div class='container' align=right>
+
+    <table mat-table [dataSource]="dataSource" class="incident-table">
+      <!-- Incident -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>Id-Incidente</th>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      </ng-container>
+  
+      <!-- Timestamp -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Fecha y hora</th>
+        <td mat-cell *matCellDef="let element">{{element.date}}</td>
+      </ng-container>
+      <!-- Incident Type -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Tipo de Incidente</th>
+        <td mat-cell *matCellDef="let element">{{element.type}}</td>
+      </ng-container>
+        <!-- Confianza -->
+        <ng-container matColumnDef="prediction">
+          <th mat-header-cell *matHeaderCellDef>Tipo de Incidente</th>
+          <td mat-cell *matCellDef="let element">{{getMax(element.prediction)}}</td>
+        </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    
+    </table>
+
+
+  </div>
+
+  <div class='container' align=center>
+    <button mat-raised-button color="primary" class="btn-block" (click)="btnBack();">Regresar</button>
+</div>

@@ -16,6 +16,7 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   monitorChartSample: number = 250;
   mensaje: any = '';
   topicname = 'monitor/heart/'
+
   yLabel: number = 0
   private subscription: Subscription;
   msg: any;
@@ -36,12 +37,12 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscribeNewTopic()
-         this.monitorChart = this.initializeChart();
+    this.subscribeMOnitorTopic()
+    this.monitorChart = this.initializeChart();
 
   }
 
-  subscribeNewTopic() {
+  subscribeMOnitorTopic() {
     this.topicname= this.topicname+this.dataService.patientId;
     console.log('inside subscribe new topic:'+this.topicname)
     this.subscription = this._mqttService.observe(this.topicname).subscribe((message: IMqttMessage) => {
@@ -68,6 +69,8 @@ export class MonitorChartComponent  implements OnInit, OnDestroy {
 
     this.logMsg('subscribed to topic: ' + this.topicname)
   }
+
+ 
 
   sendmsg(): void {
     // use unsafe publish for non-ssl websockets

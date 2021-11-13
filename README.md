@@ -29,6 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Docker
 
-docker build -t rubendreamteam/monitor-chart:latest .
+
 
 docker push rubendreamteam/monitor-chart:latest

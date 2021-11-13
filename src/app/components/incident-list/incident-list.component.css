@@ -1,0 +1,65 @@
+.incident-table {
+    width: 70%;
+    margin: auto;
+
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    cursor: pointer;
+    justify-content: center;
+    color: #0a055c;
+    background-color: #96aacf;
+    font-size: 18px;
+
+
+  }
+  
+  .mat-row:hover .mat-cell {
+    border-color: aqua;
+    color: white;
+
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+    border: 1px solid #e7e7e7;
+
+  }
+
+  .mat-header-cell{
+    font-size: 20px;
+    font-style: oblique;
+    color: white;
+    background-color: #0c46a3;
+
+  }
+
+  .container {
+    margin: 100px;
+
+  }
+
+
+  .mat-card {
+    padding: 45px 70px 55px;
+    background-color:#6282a7;
+  }
+  .btn-block{
+    background-color:#6282a7;
+  }
+.mat-fab{
+  background-color:white;
+
+}
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+    
+  .mat-toolbar {
+
+    color: white; 
+    background: #6282a7;
+    }

@@ -4,7 +4,7 @@ import { SigninComponent } from './components/signin/signin.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MonitorChartComponent } from './components/monitor-chart/monitor-chart.component';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
-
+import { IncidentListComponent } from './components/incident-list/incident-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/signin' },
@@ -12,6 +12,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'monitor', component: MonitorChartComponent },
   { path: 'patient-list', component: PatientListComponent },
+  { path: 'incident-list', component: IncidentListComponent },
+
 
 ];
 
